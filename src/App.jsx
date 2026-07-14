@@ -784,9 +784,9 @@ const LifeOpsLanding = () => {
             <div>
               <h4 className="font-semibold text-white mb-4">Company</h4>
               <div className="space-y-2">
-                <a href="#" className="text-sm hover:text-white transition block">Privacy</a>
-                <a href="#" className="text-sm hover:text-white transition block">Terms</a>
-                <a href="#" className="text-sm hover:text-white transition block">Contact</a>
+                <button className="text-sm hover:text-white transition block">Privacy</button>
+                <button className="text-sm hover:text-white transition block">Terms</button>
+                <button className="text-sm hover:text-white transition block">Contact</button>
               </div>
             </div>
           </div>
