@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
 import { Menu, X, Check, Calendar, FileText, CheckCircle, ChevronDown } from 'lucide-react';
+import { createClient } from '@supabase/supabase-js';
+
+// Initialize Supabase
+const supabaseUrl = 'https://fbmqiynfwhrfkawuycih.supabase.co';
+const supabaseKey = 'sb_publishable_6luha9vi7YF6FYbGW3b-uw_EbIcJuCY';
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 const LifeOpsLanding = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -56,25 +62,52 @@ const LifeOpsLanding = () => {
     }
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     const errors = validateForm();
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
       return;
     }
-    console.log('Form submitted:', formData);
-    setFormSubmitted(true);
-    setTimeout(() => {
-      setFormData({
-        firstName: '',
-        email: '',
-        responsibility: '',
-        area: 'healthcare-appointments',
-        consent: false,
-      });
-      setFormSubmitted(false);
-    }, 2000);
+
+    try {
+      // Insert data into Supabase
+      const { error } = await supabase
+        .from('waitlist_signups')
+        .insert([
+          {
+            first_name: formData.firstName,
+            email: formData.email,
+            responsibility: formData.responsibility,
+            area: formData.area,
+            consent: formData.consent,
+          }
+        ]);
+
+      if (error) {
+        console.error('Supabase error:', error);
+        setFormErrors({ submit: 'Failed to save. Please try again.' });
+        return;
+      }
+
+      // Success
+      console.log('Form submitted successfully to Supabase');
+      setFormSubmitted(true);
+      
+      setTimeout(() => {
+        setFormData({
+          firstName: '',
+          email: '',
+          responsibility: '',
+          area: 'healthcare-appointments',
+          consent: false,
+        });
+        setFormSubmitted(false);
+      }, 2000);
+    } catch (error) {
+      console.error('Error:', error);
+      setFormErrors({ submit: 'An error occurred. Please try again.' });
+    }
   };
 
   const faqItems = [
@@ -663,6 +696,9 @@ const LifeOpsLanding = () => {
                 </div>
                 {formErrors.consent && (
                   <p className="text-red-600 text-sm">{formErrors.consent}</p>
+                )}
+                {formErrors.submit && (
+                  <p className="text-red-600 text-sm">{formErrors.submit}</p>
                 )}
 
                 <button
