@@ -31,7 +31,7 @@ export default function App() {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
-      await supabase.from('signups').insert([formData]);
+      await supabase.from("signups").insert([{ first_name: formData.firstName, email: formData.email, responsibility: formData.responsibility, area: formData.area, consent: formData.consent }]);
       setFormSubmitted(true);
       setTimeout(() => {
         setFormData({
