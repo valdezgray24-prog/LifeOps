@@ -784,8 +784,14 @@ const LifeOpsLanding = () => {
               </div>
             ))}
           </div>
-        </div>
-      </section>
+       <div>
+                <h4 className="font-semibold text-white mb-4">Company</h4>
+                <div className="space-y-2">
+                  <button className="text-sm hover:text-white transition block">Privacy</button>
+                  <button className="text-sm hover:text-white transition block">Terms</button>
+                  <button className="text-sm hover:text-white transition block">Contact</button>
+                </div>
+              </div>
 
       <section className="py-16 md:py-24 bg-gray-900 text-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
